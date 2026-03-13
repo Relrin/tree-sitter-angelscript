@@ -6,7 +6,7 @@ int x;
 
 ---
 
-(script (variable_declaration (type (primitive_type)) (identifier)))
+(script (variable_declaration (type (datatype (primitive_type))) (identifier)))
 
 ==================
 Multiple declarations
@@ -18,8 +18,8 @@ float y;
 ---
 
 (script
-  (variable_declaration (type (primitive_type)) (identifier))
-  (variable_declaration (type (primitive_type)) (identifier)))
+  (variable_declaration (type (datatype (primitive_type))) (identifier))
+  (variable_declaration (type (datatype (primitive_type))) (identifier)))
 
 ==================
 Empty script
@@ -42,7 +42,7 @@ int x;
 
 (script
   (comment)
-  (variable_declaration (type (primitive_type)) (identifier)))
+  (variable_declaration (type (datatype (primitive_type))) (identifier)))
 
 ==================
 Block comment
@@ -55,4 +55,4 @@ int x;
 
 (script
   (comment)
-  (variable_declaration (type (primitive_type)) (identifier)))
+  (variable_declaration (type (datatype (primitive_type))) (identifier)))
