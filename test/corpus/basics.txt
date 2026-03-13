@@ -1,0 +1,58 @@
+==================
+Simple variable declaration
+==================
+
+int x;
+
+---
+
+(script (variable_declaration (type (primitive_type)) (identifier)))
+
+==================
+Multiple declarations
+==================
+
+int x;
+float y;
+
+---
+
+(script
+  (variable_declaration (type (primitive_type)) (identifier))
+  (variable_declaration (type (primitive_type)) (identifier)))
+
+==================
+Empty script
+==================
+
+
+
+---
+
+(script)
+
+==================
+Line comment
+==================
+
+// this is a comment
+int x;
+
+---
+
+(script
+  (comment)
+  (variable_declaration (type (primitive_type)) (identifier)))
+
+==================
+Block comment
+==================
+
+/* block comment */
+int x;
+
+---
+
+(script
+  (comment)
+  (variable_declaration (type (primitive_type)) (identifier)))
