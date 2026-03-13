@@ -128,7 +128,7 @@ void f() {
           (binary_expression
             left: (identifier)
             right: (number_literal)))
-        update: (postfix_expression (identifier))
+        update: (postfix_expression operand: (identifier))
         body: (statement_block
           (expression_statement (identifier)))))))
 
@@ -159,8 +159,8 @@ void f() {
           (binary_expression
             left: (identifier)
             right: (number_literal)))
-        update: (postfix_expression (identifier))
-        update: (postfix_expression (identifier))
+        update: (postfix_expression operand: (identifier))
+        update: (postfix_expression operand: (identifier))
         body: (statement_block
           (expression_statement (identifier)))))))
 
@@ -209,7 +209,7 @@ void f() {
           (binary_expression
             left: (identifier)
             right: (number_literal)))
-        update: (postfix_expression (identifier))
+        update: (postfix_expression operand: (identifier))
         body: (statement_block
           (expression_statement (identifier)))))))
 
@@ -240,7 +240,7 @@ void f() {
           (binary_expression
             left: (identifier)
             right: (number_literal)))
-        update: (postfix_expression (identifier))
+        update: (postfix_expression operand: (identifier))
         body: (statement_block
           (expression_statement (identifier)))))))
 
@@ -345,7 +345,7 @@ void f() {
           left: (identifier)
           right: (number_literal))
         body: (expression_statement
-          (postfix_expression (identifier)))))))
+          (postfix_expression operand: (identifier)))))))
 
 ================================================================================
 Do-while loop
@@ -631,9 +631,9 @@ void f() {
     parameters: (parameter_list)
     body: (statement_block
       (expression_statement
-        (postfix_expression (identifier)))
+        (postfix_expression operand: (identifier)))
       (expression_statement
-        (postfix_expression (identifier))))))
+        (postfix_expression operand: (identifier))))))
 
 ================================================================================
 Expression statement with assignment

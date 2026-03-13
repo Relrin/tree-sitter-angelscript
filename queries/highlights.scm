@@ -109,8 +109,24 @@
 (call_expression function: (identifier) @function.call)
 (call_expression function: (member_expression member: (identifier) @function.method.call))
 
+; Named arguments
+(argument_list arg_name: (identifier) @variable.parameter)
+
+; Cast keyword
+(cast_expression "cast" @keyword)
+
+; Lambda keyword
+(lambda_expression "function" @keyword)
+
+; Ternary
+(ternary_expression "?" @operator)
+(ternary_expression ":" @operator)
+
 ; Operators
 (binary_expression operator: _ @operator)
 (assignment_expression operator: _ @operator)
-(unary_expression ["-" "+" "!" "~" "++" "--"] @operator)
-(postfix_expression ["++" "--"] @operator)
+(unary_expression operator: _ @operator)
+(postfix_expression operator: _ @operator)
+
+; Index expression
+(index_expression index_name: (identifier) @variable.parameter)
