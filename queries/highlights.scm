@@ -53,6 +53,23 @@
   "return"
 ] @keyword
 
+; Control flow
+[
+  "if"
+  "else"
+  "for"
+  "foreach"
+  "while"
+  "do"
+  "switch"
+  "case"
+  "default"
+  "try"
+  "catch"
+  "break"
+  "continue"
+] @keyword.control
+
 ; Modifiers
 [
   "shared"
@@ -84,7 +101,16 @@
 [";" "," ":" "::"] @punctuation.delimiter
 ["&" "@" "~" "..."] @punctuation.special
 
+; Boolean and null literals
+(boolean_literal) @boolean
+(null_literal) @constant.builtin
+
+; Function calls
+(call_expression function: (identifier) @function.call)
+(call_expression function: (member_expression member: (identifier) @function.method.call))
+
 ; Operators
 (binary_expression operator: _ @operator)
 (assignment_expression operator: _ @operator)
 (unary_expression ["-" "+" "!" "~" "++" "--"] @operator)
+(postfix_expression ["++" "--"] @operator)

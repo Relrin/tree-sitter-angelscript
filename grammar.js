@@ -308,8 +308,18 @@ module.exports = grammar({
     ),
 
     _statement: $ => choice(
-      $.expression_statement,
+      $.if_statement,
+      $.for_statement,
+      $.foreach_statement,
+      $.while_statement,
+      $.do_while_statement,
+      $.switch_statement,
       $.return_statement,
+      $.break_statement,
+      $.continue_statement,
+      $.try_statement,
+      $.statement_block,
+      $.expression_statement,
       ";",
     ),
 
@@ -322,6 +332,71 @@ module.exports = grammar({
       "return",
       optional($._expression),
       ";",
+    ),
+
+    // =========================================================================
+    // CONTROL FLOW STATEMENTS
+    // =========================================================================
+
+    // prec.right resolves dangling-else: else binds to innermost if
+    if_statement: $ => prec.right(seq(
+      "if", "(", $._expression, ")",
+      field("consequence", $._statement),
+      optional(seq("else", field("alternative", $._statement))),
+    )),
+
+    for_statement: $ => seq(
+      "for", "(",
+      field("init", choice($.variable_declaration, $.expression_statement, ";")),
+      field("condition", choice($.expression_statement, ";")),
+      field("update", optional(commaSep1($._expression))),
+      ")",
+      field("body", $._statement),
+    ),
+
+    foreach_statement: $ => seq(
+      "foreach", "(",
+      commaSep1($.foreach_variable),
+      ":",
+      field("collection", $._expression),
+      ")",
+      field("body", $._statement),
+    ),
+
+    foreach_variable: $ => seq(
+      field("type", $.type),
+      field("name", $.identifier),
+    ),
+
+    while_statement: $ => seq(
+      "while", "(", $._expression, ")",
+      field("body", $._statement),
+    ),
+
+    do_while_statement: $ => seq(
+      "do",
+      field("body", $._statement),
+      "while", "(", $._expression, ")", ";",
+    ),
+
+    switch_statement: $ => seq(
+      "switch", "(", $._expression, ")",
+      "{", repeat($.case_clause), "}",
+    ),
+
+    case_clause: $ => seq(
+      choice(seq("case", $._expression), "default"),
+      ":",
+      repeat(choice($.variable_declaration, $._statement)),
+    ),
+
+    break_statement: _ => seq("break", ";"),
+
+    continue_statement: _ => seq("continue", ";"),
+
+    try_statement: $ => seq(
+      "try", $.statement_block,
+      "catch", $.statement_block,
     ),
 
     // =========================================================================
@@ -377,13 +452,34 @@ module.exports = grammar({
       $.assignment_expression,
       $.binary_expression,
       $.unary_expression,
+      $.postfix_expression,
+      $.call_expression,
+      $.member_expression,
       $.parenthesized_expression,
       $.number_literal,
       $.string_literal,
+      $.boolean_literal,
+      $.null_literal,
       $.identifier,
     ),
 
     parenthesized_expression: $ => seq("(", $._expression, ")"),
+
+    call_expression: $ => prec(16, seq(
+      field("function", $._expression),
+      field("arguments", $.argument_list),
+    )),
+
+    member_expression: $ => prec.left(16, seq(
+      field("object", $._expression),
+      ".",
+      field("member", $.identifier),
+    )),
+
+    postfix_expression: $ => prec.left(16, seq(
+      $._expression,
+      choice("++", "--"),
+    )),
 
     unary_expression: $ => prec.right(15, seq(
       choice("-", "+", "!", "~", "++", "--"),
@@ -453,6 +549,10 @@ module.exports = grammar({
     // =========================================================================
     // LITERALS
     // =========================================================================
+    boolean_literal: _ => choice("true", "false"),
+
+    null_literal: _ => "null",
+
     string_literal: _ => token(choice(
       seq("'", repeat(choice(/[^'\\]/, /\\./)), "'"),
       seq('"', repeat(choice(/[^"\\]/, /\\./)), '"'),
