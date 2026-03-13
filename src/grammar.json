@@ -1992,6 +1992,18 @@
           "name": "datatype"
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "template_type_list"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "REPEAT",
           "content": {
             "type": "CHOICE",
@@ -2035,6 +2047,39 @@
         }
       ]
     },
+    "template_type_list": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_template_open"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
+                "type": "SYMBOL",
+                "name": "type"
+              }
+            ]
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_template_close"
+        }
+      ]
+    },
     "scope": {
       "type": "PREC_LEFT",
       "value": 0,
@@ -2068,6 +2113,18 @@
                     {
                       "type": "SYMBOL",
                       "name": "identifier"
+                    },
+                    {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "template_type_list"
+                        },
+                        {
+                          "type": "BLANK"
+                        }
+                      ]
                     },
                     {
                       "type": "STRING",
@@ -3446,8 +3503,8 @@
           "value": "cast"
         },
         {
-          "type": "STRING",
-          "value": "<"
+          "type": "SYMBOL",
+          "name": "_template_open"
         },
         {
           "type": "FIELD",
@@ -3458,8 +3515,8 @@
           }
         },
         {
-          "type": "STRING",
-          "value": ">"
+          "type": "SYMBOL",
+          "name": "_template_close"
         },
         {
           "type": "STRING",
@@ -3946,10 +4003,23 @@
     [
       "datatype",
       "_expression"
+    ],
+    [
+      "scope",
+      "datatype"
     ]
   ],
   "precedences": [],
-  "externals": [],
+  "externals": [
+    {
+      "type": "SYMBOL",
+      "name": "_template_open"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_template_close"
+    }
+  ],
   "inline": [],
   "supertypes": [],
   "reserved": {}

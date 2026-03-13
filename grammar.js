@@ -27,6 +27,11 @@ module.exports = grammar({
 
   word: $ => $.identifier,
 
+  externals: $ => [
+    $._template_open,
+    $._template_close,
+  ],
+
   conflicts: $ => [
     // shared/external prefix ambiguity across top-level declarations
     [$.func_declaration, $.class_declaration, $.enum_declaration, $.interface_declaration, $.funcdef_declaration],
@@ -36,6 +41,8 @@ module.exports = grammar({
     [$.parameter_list, $.argument_list],
     // identifier in argument/parameter context can be expression or type
     [$.datatype, $._expression],
+    // identifier followed by '<' could be datatype + template_type_list or scope + template in scope chain
+    [$.scope, $.datatype],
   ],
 
   rules: {
@@ -427,15 +434,23 @@ module.exports = grammar({
       optional("const"),
       optional($.scope),
       $.datatype,
+      optional($.template_type_list),
       repeat(choice(
         seq("[", "]"),
         seq("@", optional("const")),
       )),
     ),
 
+    template_type_list: $ => seq(
+      $._template_open,
+      $.type,
+      repeat(seq(",", $.type)),
+      $._template_close,
+    ),
+
     scope: $ => prec.left(choice(
       "::",
-      seq(optional("::"), repeat1(seq($.identifier, "::"))),
+      seq(optional("::"), repeat1(seq($.identifier, optional($.template_type_list), "::"))),
     )),
 
     datatype: $ => choice(
@@ -605,12 +620,12 @@ module.exports = grammar({
     )),
 
     // --- Cast expression ---
-    // Uses literal < > for now; Step 5 external scanner will improve this
+    // Uses external scanner tokens to disambiguate < > from comparison operators
     cast_expression: $ => seq(
       "cast",
-      "<",
+      $._template_open,
       field("type", $.type),
-      ">",
+      $._template_close,
       "(",
       field("value", $._expression),
       ")",

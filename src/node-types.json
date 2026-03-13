@@ -2912,6 +2912,10 @@
         {
           "type": "identifier",
           "named": true
+        },
+        {
+          "type": "template_type_list",
+          "named": true
         }
       ]
     }
@@ -3132,6 +3136,21 @@
         },
         {
           "type": "unary_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "template_type_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "type",
           "named": true
         }
       ]
@@ -3382,6 +3401,10 @@
         },
         {
           "type": "scope",
+          "named": true
+        },
+        {
+          "type": "template_type_list",
           "named": true
         }
       ]
