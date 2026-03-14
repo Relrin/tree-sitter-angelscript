@@ -288,18 +288,23 @@ module.exports = grammar({
     ),
 
     // =========================================================================
-    // VAR (single declarator; multi-declarator deferred to Step 6)
+    // VAR — supports multiple declarators: int a = 1, b = 2, c;
     // =========================================================================
     variable_declaration: $ => prec.dynamic(1, seq(
       optional(choice("private", "protected")),
       field("var_type", $.type),
+      $.variable_declarator,
+      repeat(seq(",", $.variable_declarator)),
+      ";",
+    )),
+
+    variable_declarator: $ => seq(
       field("name", $.identifier),
       optional(choice(
         seq("=", choice($.initializer_list, $._expression)),
         $.argument_list,
       )),
-      ";",
-    )),
+    ),
 
     // =========================================================================
     // STATEMENT BLOCK (stub — expanded in Step 3)
@@ -674,6 +679,9 @@ module.exports = grammar({
     null_literal: _ => "null",
 
     string_literal: _ => token(choice(
+      // Triple-quoted heredoc strings (no escape processing, multiline)
+      seq('"""', /([^"]|"[^"]|""[^"])*/, '"""'),
+      // Single and double quoted strings with escape sequences
       seq("'", repeat(choice(/[^'\\]/, /\\./)), "'"),
       seq('"', repeat(choice(/[^"\\]/, /\\./)), '"'),
     )),

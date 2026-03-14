@@ -11,7 +11,7 @@ Array<int> a;
     (type
       (datatype (identifier))
       (template_type_list (type (datatype (primitive_type)))))
-    (identifier)))
+    (variable_declarator (identifier))))
 
 ==================
 Nested template type
@@ -29,7 +29,7 @@ Array<Array<int>> a;
         (type
           (datatype (identifier))
           (template_type_list (type (datatype (primitive_type)))))))
-    (identifier)))
+    (variable_declarator (identifier))))
 
 ==================
 Template with multiple params
@@ -46,7 +46,7 @@ Dict<string, int> d;
       (template_type_list
         (type (datatype (identifier)))
         (type (datatype (primitive_type)))))
-    (identifier)))
+    (variable_declarator (identifier))))
 
 ==================
 Triple-nested template
@@ -68,7 +68,7 @@ Dict<string, Array<Array<int>>> d;
             (type
               (datatype (identifier))
               (template_type_list (type (datatype (primitive_type)))))))))
-    (identifier)))
+    (variable_declarator (identifier))))
 
 ==================
 Template in function parameter
@@ -165,7 +165,7 @@ NS::Array<int> a;
       (scope (identifier))
       (datatype (identifier))
       (template_type_list (type (datatype (primitive_type)))))
-    (identifier)))
+    (variable_declarator (identifier))))
 
 ==================
 Const template type
@@ -180,7 +180,7 @@ const Array<int> a;
     (type
       (datatype (identifier))
       (template_type_list (type (datatype (primitive_type)))))
-    (identifier)))
+    (variable_declarator (identifier))))
 
 ==================
 Handle to template type
@@ -195,7 +195,7 @@ Array<int>@ handle;
     (type
       (datatype (identifier))
       (template_type_list (type (datatype (primitive_type)))))
-    (identifier)))
+    (variable_declarator (identifier))))
 
 ==================
 Comparison not confused with template
@@ -215,10 +215,11 @@ void f() {
     body: (statement_block
       (variable_declaration
         var_type: (type (datatype (primitive_type)))
-        name: (identifier)
-        (binary_expression
-          left: (identifier)
-          right: (identifier))))))
+        (variable_declarator
+          name: (identifier)
+          (binary_expression
+            left: (identifier)
+            right: (identifier)))))))
 
 ==================
 Greater-than not confused with template close
@@ -238,10 +239,11 @@ void f() {
     body: (statement_block
       (variable_declaration
         var_type: (type (datatype (primitive_type)))
-        name: (identifier)
-        (binary_expression
-          left: (identifier)
-          right: (identifier))))))
+        (variable_declarator
+          name: (identifier)
+          (binary_expression
+            left: (identifier)
+            right: (identifier)))))))
 
 ==================
 Shift operators not confused with template
@@ -263,22 +265,25 @@ void f() {
     body: (statement_block
       (variable_declaration
         var_type: (type (datatype (primitive_type)))
-        name: (identifier)
-        (binary_expression
-          left: (identifier)
-          right: (number_literal)))
+        (variable_declarator
+          name: (identifier)
+          (binary_expression
+            left: (identifier)
+            right: (number_literal))))
       (variable_declaration
         var_type: (type (datatype (primitive_type)))
-        name: (identifier)
-        (binary_expression
-          left: (identifier)
-          right: (number_literal)))
+        (variable_declarator
+          name: (identifier)
+          (binary_expression
+            left: (identifier)
+            right: (number_literal))))
       (variable_declaration
         var_type: (type (datatype (primitive_type)))
-        name: (identifier)
-        (binary_expression
-          left: (identifier)
-          right: (number_literal))))))
+        (variable_declarator
+          name: (identifier)
+          (binary_expression
+            left: (identifier)
+            right: (number_literal)))))))
 
 ==================
 Mixed template and comparison in same function
@@ -301,13 +306,14 @@ void f() {
         var_type: (type
           (datatype (identifier))
           (template_type_list (type (datatype (primitive_type)))))
-        name: (identifier))
+        (variable_declarator name: (identifier)))
       (variable_declaration
         var_type: (type (datatype (primitive_type)))
-        name: (identifier)
-        (binary_expression
-          left: (identifier)
-          right: (identifier))))))
+        (variable_declarator
+          name: (identifier)
+          (binary_expression
+            left: (identifier)
+            right: (identifier)))))))
 
 ==================
 Funcdef with template type

@@ -152,10 +152,10 @@ class Player : Entity {
     body: (class_body
       (variable_declaration
         var_type: (type (datatype (primitive_type)))
-        name: (identifier))
+        (variable_declarator name: (identifier)))
       (variable_declaration
         var_type: (type (datatype (identifier)))
-        name: (identifier))
+        (variable_declarator name: (identifier)))
       (func_declaration
         return_type: (type (datatype (primitive_type)))
         name: (identifier)
@@ -347,7 +347,7 @@ namespace Game {
     body: (namespace_body
       (variable_declaration
         var_type: (type (datatype (primitive_type)))
-        name: (identifier))
+        (variable_declarator name: (identifier)))
       (func_declaration
         return_type: (type (datatype (primitive_type)))
         name: (identifier)
@@ -409,8 +409,9 @@ int x = 5;
 (script
   (variable_declaration
     var_type: (type (datatype (primitive_type)))
-    name: (identifier)
-    (number_literal)))
+    (variable_declarator
+      name: (identifier)
+      (number_literal))))
 
 ==================
 Variable with constructor-style init
@@ -423,8 +424,9 @@ Foo obj(1, 2);
 (script
   (variable_declaration
     var_type: (type (datatype (identifier)))
-    name: (identifier)
-    (argument_list (number_literal) (number_literal))))
+    (variable_declarator
+      name: (identifier)
+      (argument_list (number_literal) (number_literal)))))
 
 ==================
 Variable with initializer list
@@ -437,11 +439,12 @@ int x = {1, 2, 3};
 (script
   (variable_declaration
     var_type: (type (datatype (primitive_type)))
-    name: (identifier)
-    (initializer_list
-      (number_literal)
-      (number_literal)
-      (number_literal))))
+    (variable_declarator
+      name: (identifier)
+      (initializer_list
+        (number_literal)
+        (number_literal)
+        (number_literal)))))
 
 ==================
 Const type variable
@@ -454,8 +457,9 @@ const int MAX = 100;
 (script
   (variable_declaration
     var_type: (type (datatype (primitive_type)))
-    name: (identifier)
-    (number_literal)))
+    (variable_declarator
+      name: (identifier)
+      (number_literal))))
 
 ==================
 Scoped type variable
@@ -470,7 +474,7 @@ A::B obj;
     var_type: (type
       (scope (identifier))
       (datatype (identifier)))
-    name: (identifier)))
+    (variable_declarator name: (identifier))))
 
 ==================
 Handle type variable
@@ -483,7 +487,7 @@ Foo@ handle;
 (script
   (variable_declaration
     var_type: (type (datatype (identifier)))
-    name: (identifier)))
+    (variable_declarator name: (identifier))))
 
 ==================
 Array type variable
@@ -496,7 +500,7 @@ int[] arr;
 (script
   (variable_declaration
     var_type: (type (datatype (primitive_type)))
-    name: (identifier)))
+    (variable_declarator name: (identifier))))
 
 ==================
 Auto type variable
@@ -509,5 +513,79 @@ auto x = 42;
 (script
   (variable_declaration
     var_type: (type (datatype))
-    name: (identifier)
-    (number_literal)))
+    (variable_declarator
+      name: (identifier)
+      (number_literal))))
+
+==================
+Multiple variable declarators
+==================
+
+int a = 1, b = 2, c;
+
+---
+
+(script
+  (variable_declaration
+    var_type: (type (datatype (primitive_type)))
+    (variable_declarator
+      name: (identifier)
+      (number_literal))
+    (variable_declarator
+      name: (identifier)
+      (number_literal))
+    (variable_declarator
+      name: (identifier))))
+
+==================
+Multiple declarators with constructor init
+==================
+
+Foo a(1), b(2, 3);
+
+---
+
+(script
+  (variable_declaration
+    var_type: (type (datatype (identifier)))
+    (variable_declarator
+      name: (identifier)
+      (argument_list (number_literal)))
+    (variable_declarator
+      name: (identifier)
+      (argument_list (number_literal) (number_literal)))))
+
+==================
+Multiple declarators with mixed init
+==================
+
+int a = 1, b, c = 3;
+
+---
+
+(script
+  (variable_declaration
+    var_type: (type (datatype (primitive_type)))
+    (variable_declarator
+      name: (identifier)
+      (number_literal))
+    (variable_declarator
+      name: (identifier))
+    (variable_declarator
+      name: (identifier)
+      (number_literal))))
+
+==================
+Triple-quoted heredoc string
+==================
+
+string s = """hello world""";
+
+---
+
+(script
+  (variable_declaration
+    var_type: (type (datatype (identifier)))
+    (variable_declarator
+      name: (identifier)
+      (string_literal))))

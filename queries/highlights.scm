@@ -29,7 +29,7 @@
 (virtual_property name: (identifier) @property)
 
 ; Variable names
-(variable_declaration name: (identifier) @variable)
+(variable_declarator name: (identifier) @variable)
 
 ; Parameter names
 (parameter name: (identifier) @variable.parameter)

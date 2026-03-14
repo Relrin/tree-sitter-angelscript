@@ -122,8 +122,9 @@ void f() {
       (for_statement
         init: (variable_declaration
           var_type: (type (datatype (primitive_type)))
-          name: (identifier)
-          (number_literal))
+          (variable_declarator
+            name: (identifier)
+            (number_literal)))
         condition: (expression_statement
           (binary_expression
             left: (identifier)
@@ -153,8 +154,9 @@ void f() {
       (for_statement
         init: (variable_declaration
           var_type: (type (datatype (primitive_type)))
-          name: (identifier)
-          (number_literal))
+          (variable_declarator
+            name: (identifier)
+            (number_literal)))
         condition: (expression_statement
           (binary_expression
             left: (identifier)
@@ -699,13 +701,16 @@ void f() {
     body: (statement_block
       (variable_declaration
         var_type: (type (datatype (primitive_type)))
-        name: (identifier)
-        (boolean_literal))
+        (variable_declarator
+          name: (identifier)
+          (boolean_literal)))
       (variable_declaration
         var_type: (type (datatype (primitive_type)))
-        name: (identifier)
-        (boolean_literal))
+        (variable_declarator
+          name: (identifier)
+          (boolean_literal)))
       (variable_declaration
         var_type: (type (datatype))
-        name: (identifier)
-        (null_literal)))))
+        (variable_declarator
+          name: (identifier)
+          (null_literal))))))

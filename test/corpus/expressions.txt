@@ -745,11 +745,12 @@ void f() {
     body: (statement_block
       (variable_declaration
         var_type: (type (datatype (primitive_type)))
-        name: (identifier)
-        (initializer_list
-          (number_literal)
-          (number_literal)
-          (number_literal))))))
+        (variable_declarator
+          name: (identifier)
+          (initializer_list
+            (number_literal)
+            (number_literal)
+            (number_literal)))))))
 
 ================================================================================
 Nested initializer list
@@ -769,14 +770,15 @@ void f() {
     body: (statement_block
       (variable_declaration
         var_type: (type (datatype))
-        name: (identifier)
-        (initializer_list
+        (variable_declarator
+          name: (identifier)
           (initializer_list
-            (number_literal)
-            (number_literal))
-          (initializer_list
-            (number_literal)
-            (number_literal)))))))
+            (initializer_list
+              (number_literal)
+              (number_literal))
+            (initializer_list
+              (number_literal)
+              (number_literal))))))))
 
 ================================================================================
 Parenthesized expression
