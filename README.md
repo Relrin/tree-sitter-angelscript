@@ -125,5 +125,5 @@ examples/
 
 ## License
 
-The microservice-matchmaking published under BSD-3-Clause license. For more details read [LICENSE](https://github.com/tree-sitter-angelscript/blob/master/LICENSE) file.
+The microservice-matchmaking published under BSD-3-Clause license. For more details read [LICENSE](https://github.com/Relrin/tree-sitter-angelscript/blob/master/LICENSE) file.
 
