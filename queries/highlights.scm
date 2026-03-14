@@ -10,6 +10,7 @@
 ; Types
 (primitive_type) @type.builtin
 (datatype (identifier) @type)
+(datatype "?" @type.builtin)
 
 ; Declaration names
 (class_declaration name: (identifier) @type)
@@ -19,6 +20,9 @@
 (funcdef_declaration name: (identifier) @type)
 (mixin_declaration (class_declaration name: (identifier) @type))
 (base_class_list base: (identifier) @type)
+
+; Enum members
+(enum_member name: (identifier) @constant)
 
 ; Function names
 (func_declaration name: (identifier) @function)
@@ -33,6 +37,9 @@
 
 ; Parameter names
 (parameter name: (identifier) @variable.parameter)
+
+; Foreach variable names
+(foreach_variable name: (identifier) @variable)
 
 ; Namespace
 (namespace_declaration name: (scoped_identifier) @module)
@@ -94,11 +101,10 @@
 
 ; Type qualifiers
 "auto" @type.builtin
-"void" @type.builtin
 
 ; Punctuation
 ["(" ")" "{" "}" "[" "]"] @punctuation.bracket
-[";" "," ":" "::"] @punctuation.delimiter
+[";" "," "." ":" "::"] @punctuation.delimiter
 ["&" "@" "~" "..."] @punctuation.special
 
 ; Boolean and null literals
