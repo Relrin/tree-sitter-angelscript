@@ -38,6 +38,7 @@ shared enum Flags { NONE, ALL }
 
 (script
   (enum_declaration
+    modifier: (declaration_modifier)
     name: (identifier)
     (enum_member name: (identifier))
     (enum_member name: (identifier))))
@@ -119,6 +120,8 @@ shared abstract class Entity { }
 
 (script
   (class_declaration
+    modifier: (declaration_modifier)
+    modifier: (declaration_modifier)
     name: (identifier)
     body: (class_body)))
 
@@ -172,9 +175,8 @@ mixin class Helpers { }
 
 (script
   (mixin_declaration
-    (class_declaration
-      name: (identifier)
-      body: (class_body))))
+    name: (identifier)
+    body: (class_body)))
 
 ==================
 Empty interface
@@ -264,6 +266,7 @@ shared funcdef bool Predicate(int, int);
 
 (script
   (funcdef_declaration
+    modifier: (declaration_modifier)
     return_type: (type (datatype (primitive_type)))
     name: (identifier)
     parameters: (parameter_list
@@ -589,3 +592,45 @@ string s = """hello world""";
     (variable_declarator
       name: (identifier)
       (string_literal))))
+
+==================
+Typedef with user-defined type
+==================
+
+typedef MyClass AliasName;
+
+---
+
+(script
+  (typedef_declaration
+    base_type: (identifier)
+    name: (identifier)))
+
+==================
+Mixin class with modifiers
+==================
+
+mixin shared class Helper { }
+
+---
+
+(script
+  (mixin_declaration
+    modifier: (declaration_modifier)
+    name: (identifier)
+    body: (class_body)))
+
+==================
+External funcdef
+==================
+
+external funcdef void NativeCallback();
+
+---
+
+(script
+  (funcdef_declaration
+    modifier: (declaration_modifier)
+    return_type: (type (datatype (primitive_type)))
+    name: (identifier)
+    parameters: (parameter_list)))

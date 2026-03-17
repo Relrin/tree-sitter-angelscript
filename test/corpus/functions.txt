@@ -75,6 +75,7 @@ shared private void foo() { }
 
 (script
   (func_declaration
+    modifier: (declaration_modifier)
     return_type: (type (datatype (primitive_type)))
     name: (identifier)
     parameters: (parameter_list)

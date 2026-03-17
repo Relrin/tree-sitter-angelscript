@@ -18,7 +18,7 @@
 (enum_declaration name: (identifier) @type)
 (typedef_declaration name: (identifier) @type)
 (funcdef_declaration name: (identifier) @type)
-(mixin_declaration (class_declaration name: (identifier) @type))
+(mixin_declaration name: (identifier) @type)
 (base_class_list base: (identifier) @type)
 
 ; Enum members
@@ -78,11 +78,8 @@
 ] @keyword.control
 
 ; Modifiers
+(declaration_modifier) @keyword.modifier
 [
-  "shared"
-  "abstract"
-  "final"
-  "external"
   "private"
   "protected"
   "const"

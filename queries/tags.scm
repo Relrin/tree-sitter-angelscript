@@ -12,6 +12,10 @@
 (interface_declaration
   name: (identifier) @name) @definition.interface
 
+; Mixin classes
+(mixin_declaration
+  name: (identifier) @name) @definition.class
+
 ; Enums
 (enum_declaration
   name: (identifier) @name) @definition.enum

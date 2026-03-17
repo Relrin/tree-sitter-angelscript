@@ -33,10 +33,6 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    // shared/external prefix ambiguity across top-level declarations
-    [$.func_declaration, $.class_declaration, $.enum_declaration, $.interface_declaration, $.funcdef_declaration],
-    // shared/external prefix inside class body (func vs funcdef)
-    [$.func_declaration, $.funcdef_declaration],
     // argument_list vs parameter_list: both match '(' ... ')'
     [$.parameter_list, $.argument_list],
     // identifier in argument/parameter context can be expression or type
@@ -128,7 +124,7 @@ module.exports = grammar({
     // ENUM
     // =========================================================================
     enum_declaration: $ => seq(
-      repeat(choice("shared", "external")),
+      repeat(field("modifier", $.declaration_modifier)),
       "enum",
       field("name", $.identifier),
       choice(
@@ -152,7 +148,7 @@ module.exports = grammar({
     // =========================================================================
     typedef_declaration: $ => seq(
       "typedef",
-      field("base_type", $.primitive_type),
+      field("base_type", choice($.primitive_type, $.identifier)),
       field("name", $.identifier),
       ";",
     ),
@@ -161,7 +157,7 @@ module.exports = grammar({
     // CLASS
     // =========================================================================
     class_declaration: $ => seq(
-      repeat(choice("shared", "abstract", "final", "external")),
+      repeat(field("modifier", $.declaration_modifier)),
       "class",
       field("name", $.identifier),
       choice(
@@ -194,14 +190,23 @@ module.exports = grammar({
     // =========================================================================
     mixin_declaration: $ => seq(
       "mixin",
-      $.class_declaration,
+      repeat(field("modifier", $.declaration_modifier)),
+      "class",
+      field("name", $.identifier),
+      choice(
+        ";",
+        seq(
+          optional($.base_class_list),
+          field("body", $.class_body),
+        ),
+      ),
     ),
 
     // =========================================================================
     // INTERFACE
     // =========================================================================
     interface_declaration: $ => seq(
-      repeat(choice("external", "shared")),
+      repeat(field("modifier", $.declaration_modifier)),
       "interface",
       field("name", $.identifier),
       choice(
@@ -235,7 +240,7 @@ module.exports = grammar({
     // FUNCDEF
     // =========================================================================
     funcdef_declaration: $ => seq(
-      repeat(choice("external", "shared")),
+      repeat(field("modifier", $.declaration_modifier)),
       "funcdef",
       field("return_type", $.type),
       optional("&"),
@@ -248,7 +253,7 @@ module.exports = grammar({
     // FUNC
     // =========================================================================
     func_declaration: $ => prec.dynamic(2, seq(
-      repeat(choice("shared", "external")),
+      repeat(field("modifier", $.declaration_modifier)),
       optional(choice("private", "protected")),
       optional(
         choice(
@@ -266,6 +271,8 @@ module.exports = grammar({
     func_attributes: _ => repeat1(
       choice("override", "final", "explicit", "property", "delete"),
     ),
+
+    declaration_modifier: _ => choice("shared", "external", "abstract", "final"),
 
     // =========================================================================
     // VIRTUAL PROPERTY
