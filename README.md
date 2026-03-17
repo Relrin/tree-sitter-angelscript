@@ -42,8 +42,8 @@ Add to `Cargo.toml`:
 
 ```toml
 [dependencies]
-tree-sitter-angelscript = "0.1"
-tree-sitter = "0.26"
+tree-sitter-language = "0.1.7"
+tree-sitter = "0.26.7"
 ```
 
 ```rust
