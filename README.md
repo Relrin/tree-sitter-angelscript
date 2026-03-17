@@ -10,14 +10,14 @@ Provides parsing, syntax highlighting, and code navigation for AngelScript `.as`
 
 The grammar covers the full AngelScript syntax:
 
-- **Declarations** -- classes (with inheritance, abstract/final/shared modifiers), interfaces, enums, namespaces, mixins, typedefs, funcdefs, imports, using directives
-- **Functions** -- declarations, constructors, destructors, forward declarations, parameter modifiers (`in`, `out`, `inout`), default values, variadic parameters, function attributes (`override`, `final`, `explicit`, `property`, `delete`)
-- **Types** -- primitives (`int`, `float`, `bool`, `string`, etc.), templates (`Array<T>`), handles (`@`), const qualifiers, auto type, scoped types (`Mod::Type`), arrays (`int[]`)
-- **Statements** -- if/else, for, foreach, while, do-while, switch/case, try/catch, return, break, continue
-- **Expressions** -- full operator precedence (15 levels), assignment operators, ternary, logical (`&&`, `||`, `^^`, `and`, `or`, `xor`), bitwise, identity (`is`, `!is`), exponentiation (`**`), unsigned right shift (`>>>`), handle-of (`@`), prefix/postfix increment/decrement, member access, indexing (with named indices), function calls (with named arguments), cast expressions, lambda expressions
-- **Literals** -- integers (decimal, hex `0xFF`, octal `0o77`, binary `0b1010`), floats (with exponent and suffix), single/double quoted strings, triple-quoted heredoc strings, booleans, null
-- **Virtual properties** -- get/set accessors with const and attribute support
-- **Comments** -- single-line (`//`) and block (`/* */`)
+- **Declarations** - classes (with inheritance, abstract/final/shared modifiers), interfaces, enums, namespaces, mixins, typedefs, funcdefs, imports, using directives
+- **Functions** - declarations, constructors, destructors, forward declarations, parameter modifiers (`in`, `out`, `inout`), default values, variadic parameters, function attributes (`override`, `final`, `explicit`, `property`, `delete`)
+- **Types** - primitives (`int`, `float`, `bool`, `string`, etc.), templates (`Array<T>`), handles (`@`), const qualifiers, auto type, scoped types (`Mod::Type`), arrays (`int[]`)
+- **Statements** - if/else, for, foreach, while, do-while, switch/case, try/catch, return, break, continue
+- **Expressions** - full operator precedence (15 levels), assignment operators, ternary, logical (`&&`, `||`, `^^`, `and`, `or`, `xor`), bitwise, identity (`is`, `!is`), exponentiation (`**`), unsigned right shift (`>>>`), handle-of (`@`), prefix/postfix increment/decrement, member access, indexing (with named indices), function calls (with named arguments), cast expressions, lambda expressions
+- **Literals** - integers (decimal, hex `0xFF`, octal `0o77`, binary `0b1010`), floats (with exponent and suffix), single/double quoted strings, triple-quoted heredoc strings, booleans, null
+- **Virtual properties** - get/set accessors with const and attribute support
+- **Comments** - single-line (`//`) and block (`/* */`)
 
 ### External scanner
 
@@ -112,7 +112,7 @@ src/
 queries/
   highlights.scm        # Syntax highlighting queries
   tags.scm              # Code navigation queries
-test/corpus/            # Test corpus (135 tests)
+test/corpus/            # Test corpus (138 tests)
   basics.txt
   declarations.txt
   expressions.txt
