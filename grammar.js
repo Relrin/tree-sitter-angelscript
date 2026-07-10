@@ -23,6 +23,7 @@ module.exports = grammar({
   extras: $ => [
     /\s+/,
     $.comment,
+    $.preproc_directive,
   ],
 
   word: $ => $.identifier,
@@ -519,7 +520,7 @@ module.exports = grammar({
       field("left", $._expression),
       field("operator", choice(
         "=", "+=", "-=", "*=", "/=", "%=", "**=",
-        "&=", "|=", "^=", "<<=", ">>=", ">>>=",
+        "&=", "|=", "^=", "<<=", ">>=", ">>>=", "@=",
       )),
       field("right", $._expression),
     )),
@@ -720,6 +721,11 @@ module.exports = grammar({
       seq("//", /(\\+(.|\r?\n)|[^\\\n])*/),
       seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/"),
     )),
+
+    // Preprocessor directive: one full line starting with '#', e.g.
+    // #include "file.as", #if EDITOR, #ifdef WITH_SERVER, #else, #endif,
+    // #pragma, etc.
+    preproc_directive: _ => token(seq("#", /[^\r\n]*/)),
 
     identifier: _ => /[A-Za-z_][A-Za-z0-9_]*/,
   },

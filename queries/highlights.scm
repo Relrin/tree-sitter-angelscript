@@ -3,6 +3,9 @@
 ; Comments
 (comment) @comment
 
+; Preprocessor directives (#include, #if, #ifdef, #else, #endif, #pragma, ...)
+(preproc_directive) @keyword.directive
+
 ; Literals
 (string_literal) @string
 (number_literal) @number

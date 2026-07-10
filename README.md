@@ -17,6 +17,8 @@ The grammar covers the full AngelScript syntax:
 - **Expressions** - full operator precedence (15 levels), assignment operators, ternary, logical (`&&`, `||`, `^^`, `and`, `or`, `xor`), bitwise, identity (`is`, `!is`), exponentiation (`**`), unsigned right shift (`>>>`), handle-of (`@`), prefix/postfix increment/decrement, member access, indexing (with named indices), function calls (with named arguments), cast expressions, lambda expressions
 - **Literals** - integers (decimal, hex `0xFF`, octal `0o77`, binary `0b1010`), floats (with exponent and suffix), single/double quoted strings, triple-quoted heredoc strings, booleans, null
 - **Virtual properties** - get/set accessors with const and attribute support
+- **Handle assignment** - `@handle = obj` (handle-of on the left-hand side) and the `@=` operator
+- **Preprocessor directives** - line directives (`#include`, `#if`, `#ifdef`, `#else`, `#endif`, `#pragma`, ...) are parsed as extras, so `#if`/`#endif` pairs can wrap any region of code without producing errors
 - **Comments** - single-line (`//`) and block (`/* */`)
 
 ### External scanner
@@ -28,11 +30,12 @@ An external scanner (`src/scanner.c`) handles template `<>` disambiguation, dist
 | File | Purpose |
 |---|---|
 | `queries/highlights.scm` | Syntax highlighting -- keywords, types, functions, literals, operators, punctuation |
+| `queries/locals.scm` | Scope tracking -- scopes, definitions (variables, parameters, fields, functions, types), and references for local-variable highlighting and smart rename |
 | `queries/tags.scm` | Code navigation -- symbol definitions (functions, classes, interfaces, enums, namespaces, properties) and references (function/method calls) |
 
 ### Test corpus
 
-135 tests across 6 corpus files covering basics, declarations, expressions, functions, statements, and type system (including template disambiguation).
+150 tests across 7 corpus files covering basics, declarations, expressions, functions, statements, preprocessor directives, and type system (including template disambiguation).
 
 ## Usage
 
@@ -85,7 +88,7 @@ npm install
 # Generate the parser from grammar.js
 npx tree-sitter generate
 
-# Run the test corpus (135 tests)
+# Run the test corpus (150 tests)
 npx tree-sitter test
 
 # Parse an example file (should produce zero ERROR nodes)
@@ -112,7 +115,7 @@ src/
 queries/
   highlights.scm        # Syntax highlighting queries
   tags.scm              # Code navigation queries
-test/corpus/            # Test corpus (138 tests)
+test/corpus/            # Test corpus (150 tests)
   basics.txt
   declarations.txt
   expressions.txt

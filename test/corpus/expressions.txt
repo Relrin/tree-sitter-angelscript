@@ -941,3 +941,78 @@ void f() {
       (expression_statement (number_literal))
       (expression_statement (number_literal))
       (expression_statement (number_literal)))))
+
+================================================================================
+Handle assignment (@ prefix with =)
+================================================================================
+
+void f() {
+  @a = b;
+  @handle = @obj;
+}
+
+--------------------------------------------------------------------------------
+
+(script
+  (func_declaration
+    return_type: (type (datatype (primitive_type)))
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (statement_block
+      (expression_statement
+        (assignment_expression
+          left: (unary_expression operand: (identifier))
+          right: (identifier)))
+      (expression_statement
+        (assignment_expression
+          left: (unary_expression operand: (identifier))
+          right: (unary_expression operand: (identifier)))))))
+
+================================================================================
+Handle assignment operator (@=)
+================================================================================
+
+void f() {
+  a @= b;
+}
+
+--------------------------------------------------------------------------------
+
+(script
+  (func_declaration
+    return_type: (type (datatype (primitive_type)))
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (statement_block
+      (expression_statement
+        (assignment_expression
+          left: (identifier)
+          right: (identifier))))))
+
+================================================================================
+Null handle comparison (is null, !is null)
+================================================================================
+
+void f() {
+  if (a is null) {}
+  if (b !is null) {}
+}
+
+--------------------------------------------------------------------------------
+
+(script
+  (func_declaration
+    return_type: (type (datatype (primitive_type)))
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (statement_block
+      (if_statement
+        (binary_expression
+          left: (identifier)
+          right: (null_literal))
+        consequence: (statement_block))
+      (if_statement
+        (binary_expression
+          left: (identifier)
+          right: (null_literal))
+        consequence: (statement_block)))))

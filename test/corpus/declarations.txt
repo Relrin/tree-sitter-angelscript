@@ -634,3 +634,57 @@ external funcdef void NativeCallback();
     return_type: (type (datatype (primitive_type)))
     name: (identifier)
     parameters: (parameter_list)))
+
+==================
+Protected virtual property with accessor declarations
+==================
+
+class A {
+    protected float Health { get const; set; }
+}
+
+---
+
+(script
+  (class_declaration
+    name: (identifier)
+    body: (class_body
+      (virtual_property
+        prop_type: (type (datatype (primitive_type)))
+        name: (identifier)
+        (accessor)
+        (accessor)))))
+
+==================
+Handle-type virtual property
+==================
+
+class A {
+    Foo@ Prop { get; }
+}
+
+---
+
+(script
+  (class_declaration
+    name: (identifier)
+    body: (class_body
+      (virtual_property
+        prop_type: (type (datatype (identifier)))
+        name: (identifier)
+        (accessor)))))
+
+==================
+Handle variable with null initializer
+==================
+
+Foo@ f = null;
+
+---
+
+(script
+  (variable_declaration
+    var_type: (type (datatype (identifier)))
+    (variable_declarator
+      name: (identifier)
+      (null_literal))))

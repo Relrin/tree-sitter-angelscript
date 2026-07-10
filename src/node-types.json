@@ -248,6 +248,10 @@
             "named": false
           },
           {
+            "type": "@=",
+            "named": false
+          },
+          {
             "type": "^=",
             "named": false
           },
@@ -4110,6 +4114,10 @@
     "named": false
   },
   {
+    "type": "@=",
+    "named": false
+  },
+  {
     "type": "[",
     "named": false
   },
@@ -4321,6 +4329,11 @@
   {
     "type": "override",
     "named": false
+  },
+  {
+    "type": "preproc_directive",
+    "named": true,
+    "extra": true
   },
   {
     "type": "private",
