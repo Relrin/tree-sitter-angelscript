@@ -25,6 +25,8 @@ The grammar covers the full AngelScript syntax:
 
 An external scanner (`src/scanner.c`) handles template `<>` disambiguation, distinguishing generic types like `Array<int>` from comparison operators. It tracks template nesting depth and uses heuristics to determine whether `<` opens a template argument list or is a less-than operator.
 
+The scanner is tuned for error recovery on incomplete code (e.g. while typing in an editor): an unclosed template argument list like `array<int` is implicitly closed at the end of the line instead of breaking the syntax tree for the rest of the block, and an error sentinel keeps stray `<`/`>` inside error regions from corrupting the template-depth state.
+
 ### Query files
 
 | File | Purpose |
@@ -35,7 +37,7 @@ An external scanner (`src/scanner.c`) handles template `<>` disambiguation, dist
 
 ### Test corpus
 
-150 tests across 7 corpus files covering basics, declarations, expressions, functions, statements, preprocessor directives, and type system (including template disambiguation).
+159 tests across 8 corpus files covering basics, declarations, expressions, functions, statements, preprocessor directives, error recovery, and type system (including template disambiguation).
 
 ## Usage
 
@@ -88,7 +90,7 @@ npm install
 # Generate the parser from grammar.js
 npx tree-sitter generate
 
-# Run the test corpus (150 tests)
+# Run the test corpus (159 tests)
 npx tree-sitter test
 
 # Parse an example file (should produce zero ERROR nodes)
@@ -115,7 +117,7 @@ src/
 queries/
   highlights.scm        # Syntax highlighting queries
   tags.scm              # Code navigation queries
-test/corpus/            # Test corpus (150 tests)
+test/corpus/            # Test corpus (159 tests)
   basics.txt
   declarations.txt
   expressions.txt

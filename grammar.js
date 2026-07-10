@@ -31,6 +31,7 @@ module.exports = grammar({
   externals: $ => [
     $._template_open,
     $._template_close,
+    $._error_sentinel,
   ],
 
   conflicts: $ => [
