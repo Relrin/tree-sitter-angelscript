@@ -44,6 +44,11 @@
 (call_expression
   function: (identifier) @name) @reference.call
 
+; Scope-qualified calls (references)
+(call_expression
+  function: (qualified_identifier
+    name: (identifier) @name)) @reference.call
+
 ; Method calls (references)
 (call_expression
   function: (member_expression

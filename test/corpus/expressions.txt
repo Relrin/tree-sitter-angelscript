@@ -1016,3 +1016,211 @@ void f() {
           left: (identifier)
           right: (null_literal))
         consequence: (statement_block)))))
+
+================================================================================
+Namespace-qualified function call
+================================================================================
+
+void test() {
+    log::info("test");
+}
+
+--------------------------------------------------------------------------------
+
+(script
+  (func_declaration
+    return_type: (type (datatype (primitive_type)))
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (statement_block
+      (expression_statement
+        (call_expression
+          function: (qualified_identifier
+            (scope (identifier))
+            name: (identifier))
+          arguments: (argument_list (string_literal)))))))
+
+================================================================================
+Global scope function call
+================================================================================
+
+void f() { ::globalFunc(); }
+
+--------------------------------------------------------------------------------
+
+(script
+  (func_declaration
+    return_type: (type (datatype (primitive_type)))
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (statement_block
+      (expression_statement
+        (call_expression
+          function: (qualified_identifier
+            (scope)
+            name: (identifier))
+          arguments: (argument_list))))))
+
+================================================================================
+Nested namespace function call
+================================================================================
+
+void f() { a::b::c::func(); }
+
+--------------------------------------------------------------------------------
+
+(script
+  (func_declaration
+    return_type: (type (datatype (primitive_type)))
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (statement_block
+      (expression_statement
+        (call_expression
+          function: (qualified_identifier
+            (scope (identifier) (identifier) (identifier))
+            name: (identifier))
+          arguments: (argument_list))))))
+
+================================================================================
+Namespace-qualified variable access
+================================================================================
+
+void f() { int x = ns::CONSTANT; }
+
+--------------------------------------------------------------------------------
+
+(script
+  (func_declaration
+    return_type: (type (datatype (primitive_type)))
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (statement_block
+      (variable_declaration
+        var_type: (type (datatype (primitive_type)))
+        (variable_declarator
+          name: (identifier)
+          (qualified_identifier
+            (scope (identifier))
+            name: (identifier)))))))
+
+================================================================================
+Namespace-qualified enum value
+================================================================================
+
+void f() { x = ns::Enum::Value; }
+
+--------------------------------------------------------------------------------
+
+(script
+  (func_declaration
+    return_type: (type (datatype (primitive_type)))
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (statement_block
+      (expression_statement
+        (assignment_expression
+          left: (identifier)
+          right: (qualified_identifier
+            (scope (identifier) (identifier))
+            name: (identifier)))))))
+
+================================================================================
+Namespace-qualified constructor call
+================================================================================
+
+void f() { ns::Type@ obj = ns::Type(); }
+
+--------------------------------------------------------------------------------
+
+(script
+  (func_declaration
+    return_type: (type (datatype (primitive_type)))
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (statement_block
+      (variable_declaration
+        var_type: (type (scope (identifier)) (datatype (identifier)))
+        (variable_declarator
+          name: (identifier)
+          (call_expression
+            function: (qualified_identifier
+              (scope (identifier))
+              name: (identifier))
+            arguments: (argument_list)))))))
+
+================================================================================
+Base class method qualification
+================================================================================
+
+void f() { Base::method(); }
+
+--------------------------------------------------------------------------------
+
+(script
+  (func_declaration
+    return_type: (type (datatype (primitive_type)))
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (statement_block
+      (expression_statement
+        (call_expression
+          function: (qualified_identifier
+            (scope (identifier))
+            name: (identifier))
+          arguments: (argument_list))))))
+
+================================================================================
+Scope-qualified member and index access
+================================================================================
+
+void f() {
+    ns::obj.field = 2;
+    ns::arr[0] = 1;
+}
+
+--------------------------------------------------------------------------------
+
+(script
+  (func_declaration
+    return_type: (type (datatype (primitive_type)))
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (statement_block
+      (expression_statement
+        (assignment_expression
+          left: (member_expression
+            object: (qualified_identifier
+              (scope (identifier))
+              name: (identifier))
+            member: (identifier))
+          right: (number_literal)))
+      (expression_statement
+        (assignment_expression
+          left: (index_expression
+            object: (qualified_identifier
+              (scope (identifier))
+              name: (identifier))
+            index: (number_literal))
+          right: (number_literal))))))
+
+================================================================================
+Leading global scope in nested access
+================================================================================
+
+void f() { x = ::a::b::CONST; }
+
+--------------------------------------------------------------------------------
+
+(script
+  (func_declaration
+    return_type: (type (datatype (primitive_type)))
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (statement_block
+      (expression_statement
+        (assignment_expression
+          left: (identifier)
+          right: (qualified_identifier
+            (scope (identifier) (identifier))
+            name: (identifier)))))))

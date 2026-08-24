@@ -41,6 +41,12 @@ module.exports = grammar({
     [$.datatype, $._expression],
     // identifier followed by '<' could be datatype + template_type_list or scope + template in scope chain
     [$.scope, $.datatype],
+    // a leading `ns::` before the expression or a function call
+    [$.scope, $._expression_scope],
+    [$._expression_scope],
+    // '::' followed by identifier: continue the scope chain, or end the scope
+    // here and let the identifier be the datatype/name that follows it
+    [$.scope],
   ],
 
   rules: {
@@ -462,10 +468,13 @@ module.exports = grammar({
       $._template_close,
     ),
 
-    scope: $ => prec.left(choice(
+    // Forced an early reduce after the first `ns::` segment, so nested
+    // scopes (a::b::c::) never parsed. The ambiguity needs 2 tokens of lookahead
+    // and is resolved by the declared conflicts below.
+    scope: $ => choice(
       "::",
       seq(optional("::"), repeat1(seq($.identifier, optional($.template_type_list), "::"))),
-    )),
+    ),
 
     datatype: $ => choice(
       $.identifier,
@@ -511,7 +520,29 @@ module.exports = grammar({
       $.string_literal,
       $.boolean_literal,
       $.null_literal,
+      $.qualified_identifier,
       $.identifier,
+    ),
+
+    // --- Scope-qualified name (AngelScript BNF: VARACCESS ::= SCOPE IDENTIFIER)
+    // Covers namespace access (ns::value), global scope (::value), nested
+    // namespaces (a::b::c::value) and base-class qualification (Base::method).
+    // Combined with call_expression this also yields FUNCCALL
+    // (SCOPE IDENTIFIER ARGLIST). See _expression_scope for the one SCOPE form
+    // that is intentionally not accepted here.
+    qualified_identifier: $ => seq(
+      alias($._expression_scope, $.scope),
+      field("name", $.identifier),
+    ),
+
+    // Expression-position scope. Deliberately excludes the templated segment
+    // (`Tmpl<int>::`) that $.scope allows: admitting it here would make
+    // _template_open valid after *any* identifier in expression position, and
+    // the scanner's "unclosed '<' at end of line is probably a template"
+    // heuristic would then swallow multi-line comparisons split across lines.
+    _expression_scope: $ => choice(
+      "::",
+      seq(optional("::"), repeat1(seq($.identifier, "::"))),
     ),
 
     parenthesized_expression: $ => seq("(", $._expression, ")"),

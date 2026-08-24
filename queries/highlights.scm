@@ -48,6 +48,9 @@
 (namespace_declaration name: (scoped_identifier) @module)
 (scoped_identifier (identifier) @module)
 
+; Scope qualifiers in expressions: the `a::b::` part of `a::b::value`
+(qualified_identifier (scope (identifier) @module))
+
 ; Keywords
 [
   "class"
@@ -113,6 +116,7 @@
 
 ; Function calls
 (call_expression function: (identifier) @function.call)
+(call_expression function: (qualified_identifier name: (identifier) @function.call))
 (call_expression function: (member_expression member: (identifier) @function.method.call))
 
 ; Named arguments

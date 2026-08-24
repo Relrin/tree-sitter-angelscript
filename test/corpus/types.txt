@@ -332,3 +332,41 @@ funcdef bool Callback(Array<int>@);
         param_type: (type
           (datatype (identifier))
           (template_type_list (type (datatype (primitive_type)))))))))
+
+==================
+Nested scope in declaration type
+==================
+
+void f() { a::b::c::Type t; }
+
+---
+
+(script
+  (func_declaration
+    return_type: (type (datatype (primitive_type)))
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (statement_block
+      (variable_declaration
+        var_type: (type
+          (scope (identifier) (identifier) (identifier))
+          (datatype (identifier)))
+        (variable_declarator name: (identifier))))))
+
+==================
+Global scope in declaration type
+==================
+
+void f() { ::Type g; }
+
+---
+
+(script
+  (func_declaration
+    return_type: (type (datatype (primitive_type)))
+    name: (identifier)
+    parameters: (parameter_list)
+    body: (statement_block
+      (variable_declaration
+        var_type: (type (scope) (datatype (identifier)))
+        (variable_declarator name: (identifier))))))
