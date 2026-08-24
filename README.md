@@ -48,7 +48,7 @@ Add to `Cargo.toml`:
 ```toml
 [dependencies]
 tree-sitter-language = "0.1.7"
-tree-sitter = "0.26.7"
+tree-sitter = "0.26.13"
 ```
 
 ```rust
